@@ -2,7 +2,8 @@ import './globals.css'
 
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { PropsWithChildren } from 'react'
+import { ComponentProps } from 'react'
+import { getThemePreference } from './@themeSwitchButton/dal'
 import { Providers } from './client'
 
 const geistSans = Geist({
@@ -20,14 +21,15 @@ export const metadata: Metadata = {
   description: 'See the result of whole class in a minute',
 }
 
-export default function RootLayout(props: PropsWithChildren) {
+export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButton' }>) {
   return (
-    <html className='size-full dark' lang='en'>
+    <Html className='size-full bg-background text-foreground' lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col size-full [--page-size:var(--container-7xl)] [--page-padding:--spacing(2)] sm:[--page-padding:--spacing(4)] isolate md:[--page-padding:--spacing(8)] divide-y`}>
         <header className='px-(--page-padding) sticky top-0 bg-background/80 backdrop-blur-sm z-10'>
           <div className='m-auto max-w-(--page-size) py-4 flex items-center justify-between'>
             <span className='font-bold text-3xl'>Pariksha Parinaam</span>
+            {props.themeSwitchButton}
           </div>
         </header>
         <div className='px-(--page-padding) flex-1'>
@@ -58,6 +60,12 @@ export default function RootLayout(props: PropsWithChildren) {
           </div>
         </footer>
       </body>
-    </html>
+    </Html>
   )
+}
+
+async function Html(props: ComponentProps<'html'>) {
+  const themePreference = await getThemePreference()
+
+  return <html {...props} data-theme={themePreference} />
 }
