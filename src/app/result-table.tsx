@@ -1,13 +1,20 @@
 'use client'
 
 import {
-  useReactTable,
+  createColumnHelper,
+  flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  flexRender,
-  createColumnHelper,
+  useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select'
 import type { ResultOutput } from '~/lib/service'
 
 export const helpers = createColumnHelper<ResultOutput>()
@@ -33,10 +40,6 @@ export function ResultTable(props: { data: ResultOutput[] }) {
         header: 'M Name',
         cell: (info) => info.getValue(),
       }),
-      helpers.accessor('stream', {
-        header: 'Stream',
-        cell: (info) => info.getValue(),
-      }),
       ...props.data[0].subjects.map((sub, i) =>
         // @ts-expect-error
         helpers.accessor(`subjects.${i}.totalMarks`, {
@@ -54,10 +57,6 @@ export function ResultTable(props: { data: ResultOutput[] }) {
       }),
       helpers.accessor('division', {
         header: 'Result',
-        cell: (info) => info.getValue(),
-      }),
-      helpers.accessor('school', {
-        header: 'School',
         cell: (info) => info.getValue(),
       }),
     ],
@@ -103,7 +102,9 @@ export function ResultTable(props: { data: ResultOutput[] }) {
             <tbody className='divide-y divide-border'>
               {table.getRowModel().rows.map((row) => {
                 return (
-                  <tr className='hover:bg-secondary/75 transition-colors' key={row.id}>
+                  <tr
+                    className='hover:bg-secondary/75 even:bg-secondary/25 transition-colors'
+                    key={row.id}>
                     {row.getVisibleCells().map((cell) => {
                       return (
                         <td className='px-4 py-3' key={cell.id}>
@@ -118,6 +119,35 @@ export function ResultTable(props: { data: ResultOutput[] }) {
           </table>
         </div>
       </div>
+    </div>
+  )
+}
+
+export function FilteredResultTable(props: { data: ResultOutput[] }) {
+  const streamMap = Object.groupBy(props.data, (row) => row.stream)
+  const streams = Object.entries(streamMap)
+  const [filterStream, setFilterStream] = useState(streams[0][0])
+
+  return (
+    <div className='space-y-4'>
+      <div className='flex items-center gap-4 justify-end'>
+        <label className='' htmlFor=''>
+          Filter by Stream:
+        </label>
+        <Select value={filterStream} onValueChange={setFilterStream}>
+          <SelectTrigger className='capitalize min-w-32'>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {streams.map(([stream, rows]) => (
+              <SelectItem className='capitalize' value={stream} key={stream}>
+                {stream.toLowerCase()} ({rows?.length})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <ResultTable data={streamMap[filterStream]!} />
     </div>
   )
 }

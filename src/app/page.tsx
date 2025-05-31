@@ -13,7 +13,7 @@ import {
 } from '~/components/ui/select'
 import type { ResultInput } from '~/lib/service'
 import { useResultStream } from './query'
-import { ResultTable } from './result-table'
+import { FilteredResultTable, ResultTable } from './result-table'
 
 export default function HomePage() {
   const [data, setData] = useState<ResultInput | null>(null)
@@ -53,7 +53,15 @@ export default function HomePage() {
 
 function ResultDisplay(props: { data: ResultInput }) {
   const { data, error } = useResultStream(props)
-  if (data) return <ResultTable data={data} />
+  if (data) {
+    return (
+      <section className='space-y-6'>
+        <h2 className='text-2xl font-bold text-center text-balance'>{data[0].school}</h2>
+        {data[0].stream ? <FilteredResultTable data={data} /> : <ResultTable data={data} />}
+      </section>
+    )
+  }
+
   if (error)
     return (
       <div className='p-6 bg-red-200 border rounded-sm border-red-300 border-s-4 border-s-red-500'>
