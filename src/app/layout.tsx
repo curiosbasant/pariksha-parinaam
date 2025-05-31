@@ -1,8 +1,9 @@
 import './globals.css'
+
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Providers } from './client'
 import { PropsWithChildren } from 'react'
+import { Providers } from './client'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -23,14 +24,19 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html className='size-full dark' lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col size-full [--page-padding:--spacing(2)] sm:[--page-padding:--spacing(4)] md:[--page-padding:--spacing(8)]`}>
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col size-full [--page-size:var(--container-7xl)] [--page-padding:--spacing(2)] sm:[--page-padding:--spacing(4)] isolate md:[--page-padding:--spacing(8)] divide-y`}>
+        <header className='px-(--page-padding) sticky top-0 bg-background/80 backdrop-blur-sm z-10'>
+          <div className='m-auto max-w-(--page-size) py-4 flex items-center justify-between'>
+            <span className='font-bold text-3xl'>Pariksha Parinaam</span>
+          </div>
+        </header>
         <div className='px-(--page-padding) flex-1'>
-          <main className='m-auto max-w-7xl py-8 size-full'>
+          <main className='m-auto max-w-(--page-size) py-8 size-full'>
             <Providers>{props.children}</Providers>
           </main>
         </div>
-        <footer className='px-(--page-padding) border-t'>
-          <div className='m-auto max-w-7xl py-6'>
+        <footer className='px-(--page-padding)'>
+          <div className='m-auto max-w-(--page-size) py-6'>
             <div className='flex flex-col gap-2 md:flex-row justify-between text-sm'>
               <p>
                 Made with ❤️ by{' '}
