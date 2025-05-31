@@ -34,6 +34,7 @@ export default function HomePage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value='10'>Class 10</SelectItem>
               <SelectItem value='12'>Class 12</SelectItem>
             </SelectContent>
           </Select>

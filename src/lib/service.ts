@@ -12,10 +12,9 @@ export async function getResult(payload: ResultInput) {
     std: payload.standard,
     roll_no: payload.roll,
   })
-  const data = await fetch(`https://boardresultapi12.amarujala.com/result?${searchParams}`).then(
-    (res) => res.json()
-  )
-
+  const data = await fetch(
+    `https://boardresultapi${payload.standard}.amarujala.com/result?${searchParams}`
+  ).then((res) => res.json())
   const subjects = []
 
   for (let i = 1; i < 6; i++) {
