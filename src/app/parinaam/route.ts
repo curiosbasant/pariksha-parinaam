@@ -15,14 +15,14 @@ export function GET(request: NextRequest) {
 }
 
 function iteratorToStream(iterator: any) {
-  const encoder = new TextEncoder()
   return new ReadableStream({
     async pull(controller) {
       const { value, done } = await iterator.next()
       if (done) {
+        if (value === null) controller.error(new Error('Invalid data provided!'))
         controller.close()
       } else {
-        controller.enqueue(encoder.encode(JSON.stringify(value) + '<SPLIT>'))
+        controller.enqueue(JSON.stringify(value) + '<SPLIT>')
       }
     },
   })
@@ -30,6 +30,7 @@ function iteratorToStream(iterator: any) {
 
 async function* makeIterator(data: ResultInput) {
   const firstResult = await getResult({ board: 'rj', year: '2025', ...data })
+  if (!firstResult.roll) return null
   yield firstResult
 
   const resultSequence = generateResultSequence(data)
@@ -48,16 +49,10 @@ async function* makeIterator(data: ResultInput) {
 function* generateResultSequence(data: ResultInput) {
   let currentRoll = Number.parseInt(data.roll)
   for (;;) {
-    yield getResult({
-      board: 'rj',
-      year: '2025',
-      standard: data.standard,
-      roll: currentRoll.toString(),
-    })
+    yield getResult({ standard: data.standard, roll: currentRoll.toString() })
     currentRoll++
   }
 }
-
 function take<T>(iterator: Iterator<T>, limit: number): T[] {
   const result: T[] = []
   let count = 0

@@ -58,7 +58,7 @@ function ResultDisplay(props: { data: ResultInput }) {
     return (
       <div className='p-6 bg-red-200 border rounded-sm border-red-300 border-s-4 border-s-red-500'>
         <p className='text-red-500'>
-          There seems to be some problem, loading the page. Please try again later!
+          There seems to be some problem. Please check your provided details and try again!
         </p>
       </div>
     )
