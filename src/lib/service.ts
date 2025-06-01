@@ -36,7 +36,7 @@ export async function getResult(payload: ResultInput) {
     school: data.CENT_NAME,
     stream: data.GROUP,
     division: data.RESULT,
-    percentage: data.PER,
+    percentage: Number.parseFloat(data.PER),
     marksObtained: data.TOT_MARKS,
     subjects,
   }

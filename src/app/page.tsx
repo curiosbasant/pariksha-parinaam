@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from '~/components/ui/select'
 import type { ResultInput } from '~/lib/service'
+import { ClassToppersBarChart } from './charts'
 import { useResultStream } from './query'
 import { FilteredResultTable, ResultTable } from './result-table'
 
@@ -19,7 +20,7 @@ export default function HomePage() {
   const [data, setData] = useState<ResultInput | null>(null)
 
   return (
-    <div className='m-auto space-y-8'>
+    <div className='space-y-16'>
       <form
         className='grid sm:grid-cols-2 gap-4'
         action={(fd) => {
@@ -55,10 +56,13 @@ function ResultDisplay(props: { data: ResultInput }) {
   const { data, error } = useResultStream(props)
   if (data) {
     return (
+      <>
       <section className='space-y-6'>
         <h2 className='text-2xl font-bold text-center text-balance'>{data[0].school}</h2>
         {data[0].stream ? <FilteredResultTable data={data} /> : <ResultTable data={data} />}
       </section>
+        <ClassToppersBarChart results={data} />
+      </>
     )
   }
 
