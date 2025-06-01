@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from '~/components/ui/select'
 import type { ResultInput } from '~/lib/service'
-import { ClassToppersBarChart } from './charts'
+import { ClassResultPieChart, ClassToppersBarChart } from './charts'
 import { useResultStream } from './query'
 import { FilteredResultTable, ResultTable } from './result-table'
 
@@ -61,7 +61,10 @@ function ResultDisplay(props: { data: ResultInput }) {
         <h2 className='text-2xl font-bold text-center text-balance'>{data[0].school}</h2>
         {data[0].stream ? <FilteredResultTable data={data} /> : <ResultTable data={data} />}
       </section>
+        <div className='grid lg:grid-cols-[1fr_2fr] gap-y-16'>
+          <ClassResultPieChart results={data} />
         <ClassToppersBarChart results={data} />
+        </div>
       </>
     )
   }

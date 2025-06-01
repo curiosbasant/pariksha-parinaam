@@ -1,6 +1,56 @@
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  LabelList,
+  Pie,
+  PieChart,
+  XAxis,
+  YAxis,
+} from 'recharts'
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from '~/components/ui/chart'
 import type { ResultOutput } from '~/lib/service'
+
+export function ClassResultPieChart(props: { results: ResultOutput[] }) {
+  const divisions = Object.entries(Object.groupBy(props.results, (row) => row.division))
+
+  return (
+    <section className='gap-8 flex flex-col'>
+      <h2 className='text-2xl font-bold text-center'>🎯 Class Result 🍕</h2>
+      <ChartContainer
+        className='flex-1 w-full'
+        config={divisions.reduce(
+          (acc, [division], i) => (
+            (acc[`division-${i + 1}`] = { label: division, color: `var(--chart-${i + 1})` }), acc
+          ),
+          {} as ChartConfig
+        )}>
+        <PieChart accessibilityLayer>
+          <text
+            className='text-foreground text-sm'
+            fill='currentColor'
+            textAnchor='middle'
+            x='50%'
+            dy='1em'>
+            Total Students: <tspan className='font-bold text-base'>{props.results.length}</tspan>
+          </text>
+          <Pie data={divisions} nameKey='0' dataKey={(a) => a[1].length} outerRadius='90%'>
+            <LabelList className='text-2xl fill-white' />
+            {divisions.map(([division], i) => (
+              <Cell
+                name={`division-${i + 1}`}
+                fill={`var(--color-division-${i + 1})`}
+                key={division}
+              />
+            ))}
+          </Pie>
+          <ChartLegend iconType='square' content={<ChartLegendContent />} />
+        </PieChart>
+      </ChartContainer>
+    </section>
+  )
+}
 
 export function ClassToppersBarChart(props: { results: ResultOutput[] }) {
   const top3 = props.results
