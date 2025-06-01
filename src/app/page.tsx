@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from '~/components/ui/select'
 import type { ResultInput } from '~/lib/service'
-import { ClassResultPieChart, ClassToppersBarChart } from './charts'
+import { ClassResultPieChart, ResponsiveClassToppersBarChart } from './charts'
 import { useResultStream } from './query'
 import { FilteredResultTable, ResultTable } from './result-table'
 
@@ -57,13 +57,19 @@ function ResultDisplay(props: { data: ResultInput }) {
   if (data) {
     return (
       <>
-      <section className='space-y-6'>
-        <h2 className='text-2xl font-bold text-center text-balance'>{data[0].school}</h2>
-        {data[0].stream ? <FilteredResultTable data={data} /> : <ResultTable data={data} />}
-      </section>
+        <section className='space-y-6'>
+          <h2 className='text-2xl font-bold text-center text-balance'>{data[0].school}</h2>
+          {data[0].stream ? <FilteredResultTable data={data} /> : <ResultTable data={data} />}
+        </section>
         <div className='grid lg:grid-cols-[1fr_2fr] gap-y-16'>
-          <ClassResultPieChart results={data} />
-        <ClassToppersBarChart results={data} />
+          <section className='gap-8 flex flex-col'>
+            <h2 className='text-2xl font-bold text-center'>🎯 Class Result 🍕</h2>
+            <ClassResultPieChart results={data} />
+          </section>
+          <section className='space-y-8'>
+            <h2 className='text-2xl font-bold text-center'>🥇🥈🥉 Class Toppers 🏆</h2>
+            <ResponsiveClassToppersBarChart results={data} />
+          </section>
         </div>
       </>
     )
