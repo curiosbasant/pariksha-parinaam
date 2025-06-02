@@ -5,7 +5,7 @@ import {
   experimental_streamedQuery as streamedQuery,
   useQuery,
 } from '@tanstack/react-query'
-import type { ResultOutput, ResultInput } from '~/lib/service'
+import type { ResultInput, ResultOutput } from '~/lib/service'
 
 const getOptions = (data: ResultInput) =>
   queryOptions({
@@ -38,6 +38,6 @@ const getOptions = (data: ResultInput) =>
     staleTime: Number.POSITIVE_INFINITY,
   })
 
-export function useResultStream(props: { data: ResultInput }) {
-  return useQuery(getOptions(props.data))
+export function useResultStream(props: ResultInput) {
+  return useQuery(getOptions(props))
 }
