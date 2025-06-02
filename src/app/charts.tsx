@@ -1,4 +1,4 @@
-import type { ComponentClass, Ref } from 'react'
+import type { Ref } from 'react'
 import {
   Bar,
   BarChart,
@@ -9,10 +9,17 @@ import {
   PieChart,
   XAxis,
   YAxis,
-  YAxisProps,
 } from 'recharts'
 import { LabelPosition } from 'recharts/types/component/Label'
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from '~/components/ui/chart'
+import { BaseAxisProps } from 'recharts/types/util/types'
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '~/components/ui/chart'
 import { useElementSize } from '~/hooks/use-element-size'
 import type { ResultOutput } from '~/lib/service'
 
@@ -21,7 +28,7 @@ export function ClassResultPieChart(props: { results: ResultOutput[] }) {
 
   return (
     <ChartContainer
-      className='flex-1 w-full'
+      className='flex-1 aspect-square'
       config={divisions.reduce(
         (acc, [division], i) => (
           (acc[`division-${i + 1}`] = { label: division, color: `var(--chart-${i + 1})` }), acc
@@ -30,15 +37,15 @@ export function ClassResultPieChart(props: { results: ResultOutput[] }) {
       )}>
       <PieChart accessibilityLayer>
         <text
-          className='text-foreground text-sm'
+          className='text-foreground text-base'
           fill='currentColor'
           textAnchor='middle'
           x='50%'
           dy='1em'>
-          Total Students: <tspan className='font-bold text-base'>{props.results.length}</tspan>
+          Total Students: <tspan className='font-bold text-lg'>{props.results.length}</tspan>
         </text>
-        <Pie data={divisions} nameKey='0' dataKey={(a) => a[1].length} outerRadius='90%'>
-          <LabelList className='text-2xl fill-white' />
+        <Pie data={divisions} nameKey='0' dataKey={(a) => a[1].length} cy='52.5%' outerRadius='90%'>
+          <LabelList className='text-2xl fill-white pointer-events-none' />
           {divisions.map(([division], i) => (
             <Cell
               name={`division-${i + 1}`}
@@ -48,6 +55,7 @@ export function ClassResultPieChart(props: { results: ResultOutput[] }) {
           ))}
         </Pie>
         <ChartLegend iconType='square' content={<ChartLegendContent />} />
+        <ChartTooltip content={<ChartTooltipContent />} />
       </PieChart>
     </ChartContainer>
   )
@@ -79,16 +87,25 @@ export function ClassToppersBarChart(props: {
     }))
 
   const isVertical = props.layout === 'vertical'
-  // @ts-expect-error
-  const [HorizontalAxis, VerticalAxis, barRadius, labelPosition, aspectRatio]: [
-    ComponentClass<XAxis | YAxisProps>,
-    ComponentClass<XAxis | YAxisProps>,
+  const numberProps: BaseAxisProps = {
+    type: 'number',
+    tickCount: 6,
+    domain: [50, 100],
+    tickFormatter: (v: number) => `${v}%`,
+  }
+  const categoryProps: BaseAxisProps = {
+    type: 'category',
+    dataKey: 'studentName',
+  }
+
+  const [xAxisProps, yAxisProps] = isVertical
+    ? [numberProps, categoryProps]
+    : [categoryProps, numberProps]
+  const [barRadius, labelPosition, aspectRatio]: [
     [number, number, number, number],
     LabelPosition,
     string
-  ] = isVertical
-    ? [YAxis, XAxis, [0, 4, 4, 0], 'right', '9/16']
-    : [XAxis, YAxis, [4, 4, 0, 0], 'top', '16/9']
+  ] = isVertical ? [[0, 4, 4, 0], 'right', '9/16'] : [[4, 4, 0, 0], 'top', '16/9']
 
   return (
     <ChartContainer
@@ -108,14 +125,8 @@ export function ClassToppersBarChart(props: {
           horizontal={!isVertical}
           vertical={isVertical}
         />
-        <HorizontalAxis type='category' dataKey='studentName' tickMargin={10} />
-        <VerticalAxis
-          type='number'
-          tickMargin={10}
-          tickCount={6}
-          domain={[50, 100]}
-          tickFormatter={(v) => `${v}%`}
-        />
+        <YAxis {...yAxisProps} tickMargin={10} />
+        <XAxis {...xAxisProps} tickMargin={10} />
         {top3[0].subjects.map((_, i) => (
           <Bar
             name={`subject-${i + 1}`}
@@ -125,7 +136,7 @@ export function ClassToppersBarChart(props: {
             <LabelList dataKey={`subjects.${i}.marks`} position={labelPosition} />
           </Bar>
         ))}
-        <ChartLegend iconType='square' content={<ChartLegendContent />} />
+        <ChartLegend className='pt-5' iconType='square' content={<ChartLegendContent />} />
       </BarChart>
     </ChartContainer>
   )
