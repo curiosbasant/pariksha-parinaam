@@ -24,13 +24,14 @@ export default function HomePage() {
       <form
         className='grid sm:grid-cols-2 gap-4'
         action={(fd) => {
-          setData({
-            standard: fd.get('standard') as string,
-            roll: fd.get('roll') as string,
-          })
+          const standard = fd.get('standard') as string
+          const roll = fd.get('roll') as string
+          if (standard && roll) {
+            setData({ standard, roll })
+          }
         }}>
         <FormField label='Standard'>
-          <Select name='standard'>
+          <Select name='standard' defaultValue={data?.standard}>
             <SelectTrigger className='w-full'>
               <SelectValue />
             </SelectTrigger>
@@ -41,7 +42,7 @@ export default function HomePage() {
           </Select>
         </FormField>
         <FormField label='Starting Roll Number'>
-          <Input name='roll' />
+          <Input name='roll' defaultValue={data?.roll} />
         </FormField>
         <div className='flex col-span-full justify-end'>
           <Button type='submit'>Submit</Button>

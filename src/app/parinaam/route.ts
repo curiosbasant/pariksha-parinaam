@@ -47,7 +47,7 @@ async function* makeIterator(data: ResultInput) {
 }
 
 function* generateResultSequence(data: ResultInput) {
-  let currentRoll = Number.parseInt(data.roll)
+  let currentRoll = Number.parseInt(data.roll) + 1
   for (;;) {
     yield getResult({ standard: data.standard, roll: currentRoll.toString() })
     currentRoll++
@@ -55,14 +55,9 @@ function* generateResultSequence(data: ResultInput) {
 }
 function take<T>(iterator: Iterator<T>, limit: number): T[] {
   const result: T[] = []
-  let count = 0
-  let next = iterator.next()
-
-  while (!next.done && count < limit) {
-    result.push(next.value)
-    count++
-    next = iterator.next()
+  for (;;) {
+    const { done, value } = iterator.next()
+    if (done || result.push(value) >= limit) break
   }
-
   return result
 }

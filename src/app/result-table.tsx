@@ -44,7 +44,8 @@ export function ResultTable(props: { data: ResultOutput[] }) {
       ...props.data[0].subjects.map((sub, i) =>
         // @ts-expect-error
         helpers.accessor(`subjects.${i}.totalMarks`, {
-          header: sub.name,
+          // Add a space before (, and after .
+          header: sub.name.replace(/\b\(/, ' (').replace(/\.\b/, '. '),
           cell: (info) => info.getValue(),
         })
       ),
