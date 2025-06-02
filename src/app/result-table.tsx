@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useMemo, useState } from 'react'
+import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -70,8 +71,10 @@ export function ResultTable(props: { data: ResultOutput[] }) {
   })
 
   return (
-    <div className='flex -mx-(--page-padding) overflow-x-auto'>
-      <div className='grow px-(--page-padding)'>
+    <div className='flex -mx-(--page-padding)'>
+      <div className='flex-1 w-0'>
+        <ScrollArea className='pb-3 -mb-3'>
+          <div className='px-(--page-padding)'>
         <div className='rounded-md border overflow-clip'>
           <table className='w-full text-sm divide-y-2'>
             <thead className='bg-secondary text-secondary-foreground *:center'>
@@ -103,21 +106,22 @@ export function ResultTable(props: { data: ResultOutput[] }) {
               {table.getRowModel().rows.map((row) => {
                 return (
                   <tr
-                    className='hover:bg-secondary/75 even:bg-secondary/25 transition-colors'
+                        className='hover:bg-secondary/75 even:bg-secondary/40 transition-colors'
                     key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
+                        {row.getVisibleCells().map((cell) => (
                         <td className='px-4 py-3' key={cell.id}>
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
-                      )
-                    })}
+                        ))}
                   </tr>
                 )
               })}
             </tbody>
           </table>
         </div>
+          </div>
+          <ScrollBar orientation='horizontal' />
+        </ScrollArea>
       </div>
     </div>
   )
