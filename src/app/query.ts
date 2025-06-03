@@ -1,5 +1,3 @@
-'use client'
-
 import {
   queryOptions,
   experimental_streamedQuery as streamedQuery,
@@ -7,7 +5,7 @@ import {
 } from '@tanstack/react-query'
 import type { ResultInput, ResultOutput } from '~/lib/service'
 
-const getOptions = (data: ResultInput) =>
+export const getOptions = (data: ResultInput) =>
   queryOptions({
     queryKey: ['result', data],
     queryFn: streamedQuery<ResultOutput>({
