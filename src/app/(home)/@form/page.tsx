@@ -1,6 +1,6 @@
 import Form from 'next/form'
-import { FormField } from '~/components/forms'
-import { Button } from '~/components/ui/button'
+import { FormSubmitButton } from '~/components/forms/client'
+import { FormField } from '~/components/forms/shared'
 import { Input } from '~/components/ui/input'
 import {
   Select,
@@ -31,7 +31,7 @@ export default async function FormSlot(props: HomeProps) {
         <Input name='roll' defaultValue={searchParams?.roll} />
       </FormField>
       <div className='flex col-span-full justify-end'>
-        <Button type='submit'>Submit</Button>
+        <FormSubmitButton>Submit</FormSubmitButton>
       </div>
     </Form>
   )

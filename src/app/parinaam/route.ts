@@ -8,7 +8,7 @@ export function GET(request: NextRequest) {
 
   if (!standard || !roll) return NextResponse.json({ success: false })
 
-  const iterator = makeIterator({ standard, roll })
+  const iterator = makeIterator({ board: 'rj', year: '2025', standard, roll })
   const stream = iteratorToStream(iterator)
 
   return new Response(stream)
@@ -29,18 +29,18 @@ function iteratorToStream(iterator: any) {
 }
 
 async function* makeIterator(data: ResultInput) {
-  const firstResult = await getResult({ board: 'rj', year: '2025', ...data })
+  const firstResult = await getResult(data)
   if (!firstResult.roll) return null
   yield firstResult
 
   const resultSequence = generateResultSequence(data)
 
-  infiniteLoop: for (;;) {
+  for (;;) {
     for await (const result of take(resultSequence, 5)) {
       if (firstResult.school === result.school) {
         yield result
       } else {
-        break infiniteLoop
+        return
       }
     }
   }
@@ -53,11 +53,11 @@ function* generateResultSequence(data: ResultInput) {
     currentRoll++
   }
 }
-function take<T>(iterator: Iterator<T>, limit: number): T[] {
-  const result: T[] = []
-  for (;;) {
+
+function* take<T>(iterator: Iterator<T>, limit: number) {
+  while (limit--) {
     const { done, value } = iterator.next()
-    if (done || result.push(value) >= limit) break
+    if (done) return
+    yield value
   }
-  return result
 }

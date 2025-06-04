@@ -1,3 +1,5 @@
+'use client'
+
 import type { Ref } from 'react'
 import {
   Bar,
@@ -10,8 +12,8 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { LabelPosition } from 'recharts/types/component/Label'
-import { BaseAxisProps } from 'recharts/types/util/types'
+import type { LabelPosition } from 'recharts/types/component/Label'
+import type { BaseAxisProps } from 'recharts/types/util/types'
 import {
   ChartConfig,
   ChartContainer,
@@ -21,10 +23,11 @@ import {
   ChartTooltipContent,
 } from '~/components/ui/chart'
 import { useElementSize } from '~/hooks/use-element-size'
-import type { ResultOutput } from '~/lib/service'
+import { useFilteredResults } from '../../query'
 
-export function ClassResultPieChart(props: { results: ResultOutput[] }) {
-  const divisions = Object.entries(Object.groupBy(props.results, (row) => row.division))
+export function ClassResultPieChart() {
+  const results = useFilteredResults()
+  const divisions = Object.entries(Object.groupBy(results, (row) => row.division))
 
   return (
     <ChartContainer
@@ -42,7 +45,7 @@ export function ClassResultPieChart(props: { results: ResultOutput[] }) {
           textAnchor='middle'
           x='50%'
           dy='1em'>
-          Total Students: <tspan className='font-bold text-lg'>{props.results.length}</tspan>
+          Total Students: <tspan className='font-bold text-lg'>{results.length}</tspan>
         </text>
         <Pie data={divisions} nameKey='0' dataKey={(a) => a[1].length} cy='52.5%' outerRadius='90%'>
           <LabelList className='text-2xl fill-white pointer-events-none' />
@@ -61,20 +64,18 @@ export function ClassResultPieChart(props: { results: ResultOutput[] }) {
   )
 }
 
-export function ResponsiveClassToppersBarChart(props: { results: ResultOutput[] }) {
+export function ResponsiveClassToppersBarChart() {
   const [ref, size] = useElementSize()
-  return (
-    <ClassToppersBarChart ref={ref} layout={size < 576 ? 'vertical' : 'horizontal'} {...props} />
-  )
+  return <ClassToppersBarChart ref={ref} layout={size < 576 ? 'vertical' : 'horizontal'} />
 }
 
 export function ClassToppersBarChart(props: {
   ref?: Ref<HTMLDivElement>
-  results: ResultOutput[]
   /** @default 'horizontal' */
   layout?: 'vertical' | 'horizontal'
 }) {
-  const top3 = props.results
+  const results = useFilteredResults()
+  const top3 = results
     .toSorted((a, b) => b.percentage - a.percentage)
     .slice(0, 3)
     .map((r) => ({
