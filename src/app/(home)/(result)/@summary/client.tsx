@@ -6,6 +6,7 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  Label,
   LabelList,
   Pie,
   PieChart,
@@ -31,7 +32,7 @@ export function ClassResultPieChart() {
 
   return (
     <ChartContainer
-      className='flex-1 aspect-square'
+      className='flex-1 aspect-square max-h-128'
       config={divisions.reduce(
         (acc, [division], i) => (
           (acc[`division-${i + 1}`] = { label: division, color: `var(--chart-${i + 1})` }), acc
@@ -39,16 +40,20 @@ export function ClassResultPieChart() {
         {} as ChartConfig
       )}>
       <PieChart accessibilityLayer>
-        <text
-          className='text-foreground text-base'
-          fill='currentColor'
-          textAnchor='middle'
-          x='50%'
-          dy='1em'>
-          Total Students: <tspan className='font-bold text-lg'>{results.length}</tspan>
-        </text>
-        <Pie data={divisions} nameKey='0' dataKey={(a) => a[1].length} cy='52.5%' outerRadius='90%'>
-          <LabelList className='text-2xl fill-white pointer-events-none' />
+        <Pie
+          data={divisions}
+          nameKey='0'
+          dataKey={(a) => a[1].length}
+          innerRadius={65}
+          outerRadius='85%'
+          label={{
+            className: 'text-xl fill-foreground *:contents',
+            dy: '0.25em',
+          }}
+          labelLine={{
+            className: 'stroke-muted-foreground stroke-2',
+          }}
+          strokeWidth={5}>
           {divisions.map(([division], i) => (
             <Cell
               name={`division-${i + 1}`}
@@ -56,6 +61,28 @@ export function ClassResultPieChart() {
               key={division}
             />
           ))}
+          <Label
+            content={({ viewBox }) => {
+              if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                return (
+                  <text x={viewBox.cx} y={viewBox.cy} textAnchor='middle' dominantBaseline='middle'>
+                    <tspan
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      className='fill-foreground text-3xl font-bold'>
+                      {results.length.toLocaleString()}
+                    </tspan>
+                    <tspan
+                      x={viewBox.cx}
+                      y={(viewBox.cy || 0) + 24}
+                      className='fill-muted-foreground'>
+                      Total Students
+                    </tspan>
+                  </text>
+                )
+              }
+            }}
+          />
         </Pie>
         <ChartLegend iconType='square' content={<ChartLegendContent />} />
         <ChartTooltip content={<ChartTooltipContent />} />
@@ -79,10 +106,10 @@ export function ClassToppersBarChart(props: {
     .toSorted((a, b) => b.percentage - a.percentage)
     .slice(0, 3)
     .map((r) => ({
-      studentName: r.name,
+      studentName: `${r.name} / ${r.fName}`,
       subjects: r.subjects.map((s) => ({
         name: s.name,
-        percentage: Number.parseInt(s.totalMarks),
+        percentage: s.totalMarks,
         marks: s.totalMarks,
       })),
     }))
@@ -119,7 +146,11 @@ export function ClassToppersBarChart(props: {
         ),
         {} as ChartConfig
       )}>
-      <BarChart data={top3} layout={props.layout} accessibilityLayer>
+      <BarChart
+        data={top3}
+        layout={props.layout}
+        margin={{ [labelPosition]: 10 }}
+        accessibilityLayer>
         <CartesianGrid
           className='stroke-secondary'
           stroke='none'
