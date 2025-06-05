@@ -3,16 +3,17 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import { Table } from '~/components/ui/table'
-import type { ResultOutput } from '~/lib/service'
 import { useFilteredResults } from '../../query'
+import type { ResultQueryOutput } from '../../shared'
 
-const helpers = createColumnHelper<ResultOutput>()
+const helpers = createColumnHelper<ResultQueryOutput>()
 
 export default function ResultTableSlot() {
   const results = useFilteredResults()
 
   const subjects = results[0]?.subjects ?? []
   const columns = [
+    helpers.accessor('rank', { header: 'Class Rank' }),
     helpers.accessor('roll', { header: 'Roll Number' }),
     helpers.accessor('name', { header: 'Student Name' }),
     helpers.accessor('fName', { header: 'Father Name' }),

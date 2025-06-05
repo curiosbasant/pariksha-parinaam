@@ -4,35 +4,43 @@ import { ResultOutput } from '~/lib/service'
 export type HomeProps = PageProps<{ searchParams: 'standard' | 'roll' | 'tab' | 'stream' }>
 
 export type ResultQueryInput = { standard?: string | null; roll?: string | null }
+export type ResultQueryOutput = ResultOutput & { rank: number }
 
 export const getResultsOptions = (data: ResultQueryInput) =>
   queryOptions({
-    queryKey: ['results', data],
+    queryKey: ['results', data] as [string, ResultQueryInput],
     enabled: !!(data.standard && data.roll),
-    queryFn: streamedQuery<ResultOutput, [string, ResultQueryInput]>({
-      async queryFn({ queryKey }) {
-        const response = await fetch('/parinaam?' + new URLSearchParams(queryKey[1] as string))
-        const reader = response.body?.getReader()
-        const decoder = new TextDecoder()
+    async queryFn(ctx) {
+      const results = await streamedQuery<ResultQueryOutput, [string, ResultQueryInput]>({
+        async queryFn({ queryKey }) {
+          const response = await fetch('/parinaam?' + new URLSearchParams(queryKey[1] as string))
+          const reader = response.body?.getReader()
+          const decoder = new TextDecoder()
 
-        return {
-          async *[Symbol.asyncIterator]() {
-            if (!reader) return null
-            try {
-              for (;;) {
-                const { value, done } = await reader.read()
-                if (done) break
-                const result = decoder.decode(value).split('<SPLIT>')
-                for (const seg of result) {
-                  if (seg) yield JSON.parse(seg)
+          return {
+            async *[Symbol.asyncIterator]() {
+              if (!reader) return null
+              try {
+                for (;;) {
+                  const { value, done } = await reader.read()
+                  if (done) break
+                  const result = decoder.decode(value).split('<SPLIT>')
+                  for (const seg of result) {
+                    if (seg) yield JSON.parse(seg)
+                  }
                 }
+              } finally {
+                reader.releaseLock()
               }
-            } finally {
-              reader.releaseLock()
-            }
-          },
-        }
-      },
-    }),
+            },
+          }
+        },
+      })(ctx)
+
+      const rankMap = results
+        .toSorted((a, b) => b.percentage - a.percentage)
+        .reduce((acc, row, i) => ((acc[row.roll] = i + 1), acc), {} as Record<string, number>)
+      return results.map((r) => ({ ...r, rank: rankMap[r.roll] }))
+    },
     staleTime: Number.POSITIVE_INFINITY,
   })

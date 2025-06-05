@@ -25,6 +25,7 @@ import {
 } from '~/components/ui/chart'
 import { useElementSize } from '~/hooks/use-element-size'
 import { useFilteredResults } from '../../query'
+import { ResultQueryOutput } from '../../shared'
 
 export function ClassResultPieChart() {
   const results = useFilteredResults()
@@ -102,17 +103,13 @@ export function ClassToppersBarChart(props: {
   layout?: 'vertical' | 'horizontal'
 }) {
   const results = useFilteredResults()
-  const top3 = results
-    .toSorted((a, b) => b.percentage - a.percentage)
-    .slice(0, 3)
-    .map((r) => ({
-      studentName: `${r.name} / ${r.fName}`,
-      subjects: r.subjects.map((s) => ({
-        name: s.name,
-        percentage: s.totalMarks,
-        marks: s.totalMarks,
-      })),
-    }))
+  const top3 = getTop3Results(results).map((r) => ({
+    studentName: `${r.name} / ${r.fName}`,
+    subjects: r.subjects.map((s) => ({
+      name: s.name,
+      percentage: s.totalMarks,
+    })),
+  }))
 
   const isVertical = props.layout === 'vertical'
   const numberProps: BaseAxisProps = {
@@ -165,11 +162,22 @@ export function ClassToppersBarChart(props: {
             fill={`var(--color-subject-${i + 1})`}
             dataKey={`subjects.${i}.percentage`}
             radius={barRadius}>
-            <LabelList dataKey={`subjects.${i}.marks`} position={labelPosition} />
+            <LabelList dataKey={`subjects.${i}.percentage`} position={labelPosition} />
           </Bar>
         ))}
         <ChartLegend className='pt-5' iconType='square' content={<ChartLegendContent />} />
       </BarChart>
     </ChartContainer>
   )
+}
+
+function getTop3Results(results: ResultQueryOutput[]) {
+  const top3: ResultQueryOutput[] = []
+  for (const r of results) {
+    if (r.rank < 4) {
+      top3[r.rank - 1] = r
+      if (top3[0] && top3[1] && top3[2]) break
+    }
+  }
+  return top3
 }
