@@ -94,7 +94,11 @@ export function ClassResultPieChart() {
 
 export function ResponsiveClassToppersBarChart() {
   const [ref, size] = useElementSize()
-  return <ClassToppersBarChart ref={ref} layout={size < 576 ? 'vertical' : 'horizontal'} />
+  return (
+    <div ref={ref}>
+      {size < 32 ? null : <ClassToppersBarChart layout={size < 576 ? 'vertical' : 'horizontal'} />}
+    </div>
+  )
 }
 
 export function ClassToppersBarChart(props: {
@@ -103,6 +107,7 @@ export function ClassToppersBarChart(props: {
   layout?: 'vertical' | 'horizontal'
 }) {
   const results = useFilteredResults()
+
   const top3 = getTop3Results(results).map((r) => ({
     studentName: `${r.name} / ${r.fName}`,
     subjects: r.subjects.map((s) => ({
@@ -172,6 +177,7 @@ export function ClassToppersBarChart(props: {
 }
 
 function getTop3Results(results: ResultQueryOutput[]) {
+  if (!results[0].rank) return results.slice(-3)
   const top3: ResultQueryOutput[] = []
   for (const r of results) {
     if (r.rank < 4) {
