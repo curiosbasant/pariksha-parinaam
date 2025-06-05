@@ -21,7 +21,6 @@ export const getResultsOptions = (data: ResultQueryInput) =>
             try {
               for (;;) {
                 const { value, done } = await reader.read()
-                console.log({ value })
                 if (done) break
                 const result = decoder.decode(value).split('<SPLIT>')
                 for (const seg of result) {

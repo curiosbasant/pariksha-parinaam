@@ -46,7 +46,7 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
                     Made with ❤️ by{' '}
                     <a
                       className='text-blue-400 hover:text-blue-500'
-                      href='https://www.github.com/curiosbasant'
+                      href='https://www.github.com/curiosbasant/pariksha-parinaam'
                       target='_blank'>
                       Basant (Computer Instructor)
                     </a>

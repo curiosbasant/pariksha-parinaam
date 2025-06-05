@@ -30,14 +30,14 @@ function iteratorToStream(iterator: any) {
 
 async function* makeIterator(data: ResultInput) {
   const firstResult = await getResult(data)
-  if (!firstResult.roll) return null
+  if (!firstResult) return null
   yield firstResult
 
   const resultSequence = generateResultSequence(data)
 
   for (;;) {
     for await (const result of take(resultSequence, 5)) {
-      if (firstResult.school === result.school) {
+      if (result && firstResult.school === result.school) {
         yield result
       } else {
         return
