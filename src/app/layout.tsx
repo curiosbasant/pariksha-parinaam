@@ -26,6 +26,12 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
   return (
     <Html className='size-full bg-background text-foreground' lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased size-full`}>
+        <div className='absolute h-2/3 w-full mask-b-from-50% '>
+          <div
+            className='h-full dark:invert opacity-[0.05]'
+            style={{ background: 'url(/bg-pattern.jpg) top / 600px' }}
+          />
+        </div>
         <ScrollArea className='size-full'>
           <div className='flex flex-col w-full min-h-full [--page-size:var(--container-7xl)] [--page-padding:--spacing(2)] sm:[--page-padding:--spacing(4)] isolate md:[--page-padding:--spacing(8)] divide-y'>
             <header className='px-(--page-padding) sticky top-0 bg-background/80 backdrop-blur-sm z-10'>
