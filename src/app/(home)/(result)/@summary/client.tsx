@@ -93,12 +93,8 @@ export function ClassResultPieChart() {
 }
 
 export function ResponsiveClassToppersBarChart() {
-  const [ref, size] = useElementSize()
-  return (
-    <div ref={ref}>
-      {size < 32 ? null : <ClassToppersBarChart layout={size < 576 ? 'vertical' : 'horizontal'} />}
-    </div>
-  )
+  const [ref, layout] = useElementSize((size) => (size < 576 ? 'vertical' : 'horizontal'))
+  return <div ref={ref}>{layout && <ClassToppersBarChart layout={layout} />}</div>
 }
 
 export function ClassToppersBarChart(props: {

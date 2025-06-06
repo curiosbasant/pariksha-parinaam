@@ -31,9 +31,11 @@ const columns = [
     header: 'Pass Percentage',
     cell: ({ row }) => {
       const passCount =
+        row.original.distinctionCount +
         row.original.firstDivisionCount +
         row.original.secondDivisionCount +
-        row.original.thirdDivisionCount
+        row.original.thirdDivisionCount +
+        row.original.passCount
       return `${((passCount / row.original.totalStudents) * 100).toFixed(2)}%`
     },
   }),
