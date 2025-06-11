@@ -47,9 +47,9 @@ async function fetchResult(payload: ResultInput) {
     std: payload.standard,
     roll_no: payload.roll,
   })
-  return fetch(
-    `https://boardresultapi${payload.standard}.amarujala.com/result?${searchParams}`
-  ).then((res) => res.json())
+  return fetch(`https://boardresultapi${payload.standard}.amarujala.com/result?${searchParams}`, {
+    cache: 'force-cache',
+  }).then((res) => res.json())
 }
 
 export type ResultOutput = NonNullable<Awaited<ReturnType<typeof getResult>>>
