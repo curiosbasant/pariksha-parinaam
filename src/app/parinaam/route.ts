@@ -3,12 +3,13 @@ import { getResult, type ResultInput } from '~/lib/service'
 
 export function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams
+  const year = params.get('year')
   const standard = params.get('standard')
   const roll = params.get('roll')
 
   if (!standard || !roll) return NextResponse.json({ success: false })
 
-  const iterator = makeIterator({ board: 'rj', year: '2025', standard, roll })
+  const iterator = makeIterator({ board: 'rj', year: year ?? '2025', standard, roll })
   const stream = iteratorToStream(iterator)
 
   return new Response(stream)
@@ -47,10 +48,8 @@ async function* makeIterator(data: ResultInput) {
 }
 
 function* generateResultSequence(data: ResultInput) {
-  let currentRoll = Number.parseInt(data.roll) + 1
-  for (;;) {
-    yield getResult({ standard: data.standard, roll: currentRoll.toString() })
-    currentRoll++
+  for (let currentRoll = Number.parseInt(data.roll) + 1; ; currentRoll++) {
+    yield getResult({ ...data, roll: currentRoll.toString() })
   }
 }
 

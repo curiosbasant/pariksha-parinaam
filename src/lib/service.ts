@@ -2,7 +2,7 @@ import { prettifyText } from './utils'
 
 export type ResultInput = {
   board?: 'rj'
-  year?: string
+  year: string
   standard: string
   roll: string
 }
@@ -43,7 +43,7 @@ export async function getResult(payload: ResultInput) {
 async function fetchResult(payload: ResultInput) {
   const searchParams = new URLSearchParams({
     board: payload.board || 'rj',
-    year: payload.year || new Date().getFullYear().toString(),
+    year: payload.year,
     std: payload.standard,
     roll_no: payload.roll,
   })
