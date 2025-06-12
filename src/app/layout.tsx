@@ -5,7 +5,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { ComponentProps } from 'react'
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { getThemePreference } from './@themeSwitchButton/dal'
-import { Providers } from './client'
+import { Providers, ShareResultButton } from './client'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,17 +34,20 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
         </div>
         <ScrollArea className='size-full'>
           <div className='flex flex-col w-full min-h-full [--page-size:var(--container-7xl)] [--page-padding:--spacing(2)] sm:[--page-padding:--spacing(4)] isolate md:[--page-padding:--spacing(8)] divide-y'>
+            <Providers>
             <header className='px-(--page-padding) sticky top-0 bg-background/80 backdrop-blur-sm z-10'>
-              <div className='m-auto max-w-(--page-size) py-3 flex items-center justify-between'>
-                <span className='font-bold text-2xl'>Pariksha Parinaam</span>
+                <div className='m-auto max-w-(--page-size) gap-4 py-3 flex items-center'>
+                  <span className='font-bold text-2xl me-auto'>Pariksha Parinaam</span>
+                  <ShareResultButton />
                 {props.themeSwitchButton}
               </div>
             </header>
             <div className='px-(--page-padding) flex-1'>
               <main className='m-auto max-w-(--page-size) pt-8 pb-16 size-full'>
-                <Providers>{props.children}</Providers>
+                  {props.children}
               </main>
             </div>
+            </Providers>
             <footer className='px-(--page-padding)'>
               <div className='m-auto max-w-(--page-size) py-6'>
                 <div className='flex flex-col gap-2 md:flex-row justify-between text-sm'>
