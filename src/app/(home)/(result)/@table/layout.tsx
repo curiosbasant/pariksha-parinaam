@@ -2,7 +2,7 @@ export default function ResultTableSlotLayout(props: LayoutProps<{ slots: 'subje
   return (
     <div>
       {props.children}
-      <h2 className='text-2xl font-bold text-center mt-16 mb-8'>📚 Subject wise Result</h2>
+      <h2 className='mt-16 mb-8 text-center text-2xl font-bold'>📚 Subject wise Result</h2>
       {props.subjectWise}
     </div>
   )

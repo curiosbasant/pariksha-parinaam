@@ -25,29 +25,29 @@ export const metadata: Metadata = {
 export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButton' }>) {
   return (
     <Html className='size-full bg-background text-foreground' lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased size-full`}>
-        <div className='absolute h-2/3 w-full mask-b-from-50% '>
+      <body className={`${geistSans.variable} ${geistMono.variable} size-full antialiased`}>
+        <div className='absolute h-2/3 w-full mask-b-from-50%'>
           <div
-            className='h-full dark:invert opacity-[0.05]'
+            className='h-full opacity-[0.05] dark:invert'
             style={{ background: 'url(/bg-pattern.jpg) top / 600px' }}
           />
         </div>
         <ScrollArea className='size-full'>
-          <div className='flex flex-col w-full min-h-full [--page-size:var(--container-7xl)] [--page-padding:--spacing(2)] sm:[--page-padding:--spacing(4)] isolate md:[--page-padding:--spacing(8)] divide-y'>
-            <header className='px-(--page-padding) sticky top-0 bg-background/80 backdrop-blur-sm z-10'>
-              <div className='m-auto max-w-(--page-size) py-3 flex items-center justify-between'>
-                <span className='font-bold text-2xl'>Pariksha Parinaam</span>
+          <div className='isolate flex min-h-full w-full flex-col divide-y [--page-padding:--spacing(2)] [--page-size:var(--container-7xl)] sm:[--page-padding:--spacing(4)] md:[--page-padding:--spacing(8)]'>
+            <header className='sticky top-0 z-10 bg-background/80 px-(--page-padding) backdrop-blur-sm'>
+              <div className='m-auto flex max-w-(--page-size) items-center justify-between py-3'>
+                <span className='text-2xl font-bold'>Pariksha Parinaam</span>
                 {props.themeSwitchButton}
               </div>
             </header>
-            <div className='px-(--page-padding) flex-1'>
-              <main className='m-auto max-w-(--page-size) pt-8 pb-16 size-full'>
+            <div className='flex-1 px-(--page-padding)'>
+              <main className='m-auto size-full max-w-(--page-size) pt-8 pb-16'>
                 <Providers>{props.children}</Providers>
               </main>
             </div>
             <footer className='px-(--page-padding)'>
               <div className='m-auto max-w-(--page-size) py-6'>
-                <div className='flex flex-col gap-2 md:flex-row justify-between text-sm'>
+                <div className='flex flex-col justify-between gap-2 text-sm md:flex-row'>
                   <p>
                     Made with ❤️ by{' '}
                     <a

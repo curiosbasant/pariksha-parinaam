@@ -36,41 +36,44 @@ const columns = [
 
 export default function SubjectWiseTable() {
   const results = useFilteredResults()
-  const rowsObj = results.reduce((arr, row) => {
-    for (const sub of row.subjects) {
-      arr[sub.name] ??= {
-        subjectName: sub.name,
-        totalStudents: 0,
-        passCount: 0,
-        distinctionCount: 0,
-        firstDivisionCount: 0,
-        secondDivisionCount: 0,
-        thirdDivisionCount: 0,
-        failCount: 0,
-      }
-      arr[sub.name].totalStudents++
+  const rowsObj = results.reduce(
+    (arr, row) => {
+      for (const sub of row.subjects) {
+        arr[sub.name] ??= {
+          subjectName: sub.name,
+          totalStudents: 0,
+          passCount: 0,
+          distinctionCount: 0,
+          firstDivisionCount: 0,
+          secondDivisionCount: 0,
+          thirdDivisionCount: 0,
+          failCount: 0,
+        }
+        arr[sub.name].totalStudents++
 
-      if (sub.totalMarks < 33) arr[sub.name].failCount++
-      else {
-        arr[sub.name].passCount++
-        if (sub.totalMarks < 40) {
-        } else if (sub.totalMarks < 50) arr[sub.name].thirdDivisionCount++
-        else if (sub.totalMarks < 60) arr[sub.name].secondDivisionCount++
+        if (sub.totalMarks < 33) arr[sub.name].failCount++
         else {
-          arr[sub.name].firstDivisionCount++
-          if (sub.totalMarks >= 75) arr[sub.name].distinctionCount++
+          arr[sub.name].passCount++
+          if (sub.totalMarks < 40) {
+          } else if (sub.totalMarks < 50) arr[sub.name].thirdDivisionCount++
+          else if (sub.totalMarks < 60) arr[sub.name].secondDivisionCount++
+          else {
+            arr[sub.name].firstDivisionCount++
+            if (sub.totalMarks >= 75) arr[sub.name].distinctionCount++
+          }
         }
       }
-    }
-    return arr
-  }, {} as Record<string, RowType>)
+      return arr
+    },
+    {} as Record<string, RowType>,
+  )
 
   return (
-    <div className='flex -mx-(--page-padding)'>
-      <div className='flex-1 w-0'>
-        <ScrollArea className='pb-3 -mb-3'>
+    <div className='-mx-(--page-padding) flex'>
+      <div className='w-0 flex-1'>
+        <ScrollArea className='-mb-3 pb-3'>
           <div className='px-(--page-padding)'>
-            <div className='rounded-md border overflow-clip'>
+            <div className='overflow-clip rounded-md border'>
               <Table rows={Object.values(rowsObj)} columns={columns} />
             </div>
           </div>

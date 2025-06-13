@@ -15,7 +15,7 @@ export default async function FormSlot(props: HomeProps) {
   const searchParams = await props.searchParams
 
   return (
-    <Form action='/' className='grid sm:grid-cols-3 gap-4'>
+    <Form action='/' className='grid gap-4 sm:grid-cols-3'>
       <FormField label='Session'>
         <Select name='year' defaultValue={searchParams?.year ?? '2025'}>
           <SelectTrigger className='w-full'>
@@ -41,7 +41,7 @@ export default async function FormSlot(props: HomeProps) {
       <FormField label='Starting Roll Number'>
         <Input name='roll' defaultValue={searchParams?.roll} />
       </FormField>
-      <div className='flex col-span-full justify-end'>
+      <div className='col-span-full flex justify-end'>
         <FormSubmitButton>Submit</FormSubmitButton>
       </div>
     </Form>

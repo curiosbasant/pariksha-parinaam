@@ -7,7 +7,7 @@ import {
 } from 'react'
 
 export function useElementSize<T extends HTMLElement, V>(
-  select?: (size: number) => SetStateAction<V>
+  select?: (size: number) => SetStateAction<V>,
 ) {
   const [elementSize, setElementSize] = useState<V | number | null>(null)
 

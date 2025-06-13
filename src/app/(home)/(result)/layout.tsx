@@ -18,7 +18,7 @@ export default function ResultLayout(props: LayoutProps<{ slots: 'table' | 'summ
   if (isLoading) {
     return (
       <div className='flex h-96'>
-        <div className='rounded-full m-auto border-4 p-4 border-blue-500 border-s-transparent animate-spin' />
+        <div className='m-auto animate-spin rounded-full border-4 border-blue-500 border-s-transparent p-4' />
       </div>
     )
   }
@@ -26,9 +26,9 @@ export default function ResultLayout(props: LayoutProps<{ slots: 'table' | 'summ
   if (data && data.length > 0) {
     return (
       <>
-        <h2 className='text-2xl font-bold text-center text-balance px-8'>{data[0].school}</h2>
+        <h2 className='px-8 text-center text-2xl font-bold text-balance'>{data[0].school}</h2>
         <ResultTabs>
-          <div className='flex items-center gap-4 justify-between'>
+          <div className='flex items-center justify-between gap-4'>
             <TabsList>
               <TabsTrigger value='table'>Table</TabsTrigger>
               <TabsTrigger value='summary'>Summary</TabsTrigger>
@@ -43,7 +43,7 @@ export default function ResultLayout(props: LayoutProps<{ slots: 'table' | 'summ
           <TabsContent value='table' asChild>
             {props.table}
           </TabsContent>
-          <TabsContent value='summary' className='grid lg:grid-cols-[1fr_2fr] items-start gap-y-16'>
+          <TabsContent value='summary' className='grid items-start gap-y-16 lg:grid-cols-[1fr_2fr]'>
             {props.summary}
           </TabsContent>
         </ResultTabs>
@@ -53,7 +53,7 @@ export default function ResultLayout(props: LayoutProps<{ slots: 'table' | 'summ
 
   if (error)
     return (
-      <div className='p-6 bg-red-200 border rounded-sm border-red-300 border-s-4 border-s-red-500'>
+      <div className='rounded-sm border border-s-4 border-red-300 border-s-red-500 bg-red-200 p-6'>
         <p className='text-red-500'>
           There seems to be some problem. Please check your provided details and try again!
         </p>
@@ -81,7 +81,7 @@ function SelectStreamFilter() {
 
   return (
     <Select value={param ?? results[0].stream} onValueChange={setParam}>
-      <SelectTrigger className='capitalize min-w-32'>
+      <SelectTrigger className='min-w-32 capitalize'>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

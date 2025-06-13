@@ -15,8 +15,8 @@ export function Table<T>(props: { rows: T[]; columns: ColumnDef<T, any>[] }) {
   })
 
   return (
-    <table className='w-full text-sm divide-y-2'>
-      <thead className='bg-secondary text-secondary-foreground *:center'>
+    <table className='w-full divide-y-2 text-sm'>
+      <thead className='*:center bg-secondary text-secondary-foreground'>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
@@ -24,8 +24,9 @@ export function Table<T>(props: { rows: T[]; columns: ColumnDef<T, any>[] }) {
                 {header.isPlaceholder ? null : (
                   <div
                     {...{
-                      className: header.column.getCanSort()
-                        ? 'cursor-pointer select-none hover:text-blue-400 transition-colors'
+                      className:
+                        header.column.getCanSort() ?
+                          'cursor-pointer select-none hover:text-blue-400 transition-colors'
                         : '',
                       onClick: header.column.getToggleSortingHandler(),
                     }}>
@@ -45,7 +46,7 @@ export function Table<T>(props: { rows: T[]; columns: ColumnDef<T, any>[] }) {
         {table.getRowModel().rows.map((row) => {
           return (
             <tr
-              className='hover:bg-secondary/75 even:bg-secondary/40 transition-colors'
+              className='transition-colors even:bg-secondary/40 hover:bg-secondary/75'
               key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td className='px-4 py-3' key={cell.id}>

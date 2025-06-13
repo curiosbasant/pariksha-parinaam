@@ -20,7 +20,7 @@ export default function ResultTableSlot() {
     helpers.accessor('mName', { header: 'Mother Name' }),
     ...subjects.map((sub, i) =>
       // @ts-expect-error
-      helpers.accessor(`subjects.${i}.totalMarks`, { header: sub.name })
+      helpers.accessor(`subjects.${i}.totalMarks`, { header: sub.name }),
     ),
     helpers.accessor('marksObtained', { header: 'Marks Obtained' }),
     helpers.accessor('percentageText', { header: 'Percentage' }),
@@ -28,11 +28,11 @@ export default function ResultTableSlot() {
   ]
 
   return (
-    <div className='flex -mx-(--page-padding)'>
-      <div className='flex-1 w-0'>
-        <ScrollArea className='pb-3 -mb-3'>
+    <div className='-mx-(--page-padding) flex'>
+      <div className='w-0 flex-1'>
+        <ScrollArea className='-mb-3 pb-3'>
           <div className='px-(--page-padding)'>
-            <div className='rounded-md border overflow-clip'>
+            <div className='overflow-clip rounded-md border'>
               <Table rows={results} columns={columns} />
             </div>
           </div>
