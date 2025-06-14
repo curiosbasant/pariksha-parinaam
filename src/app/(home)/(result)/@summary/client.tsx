@@ -33,12 +33,12 @@ export function ClassResultPieChart() {
 
   return (
     <ChartContainer
-      className='flex-1 aspect-square max-h-128'
+      className='aspect-square max-h-128 flex-1'
       config={divisions.reduce(
         (acc, [division], i) => (
           (acc[`division-${i + 1}`] = { label: division, color: `var(--chart-${i + 1})` }), acc
         ),
-        {} as ChartConfig
+        {} as ChartConfig,
       )}>
       <PieChart accessibilityLayer>
         <Pie
@@ -124,13 +124,12 @@ export function ClassToppersBarChart(props: {
     dataKey: 'studentName',
   }
 
-  const [xAxisProps, yAxisProps] = isVertical
-    ? [numberProps, categoryProps]
-    : [categoryProps, numberProps]
+  const [xAxisProps, yAxisProps] =
+    isVertical ? [numberProps, categoryProps] : [categoryProps, numberProps]
   const [barRadius, labelPosition, aspectRatio]: [
     [number, number, number, number],
     LabelPosition,
-    string
+    string,
   ] = isVertical ? [[0, 4, 4, 0], 'right', '9/16'] : [[4, 4, 0, 0], 'top', '16/9']
 
   return (
@@ -142,7 +141,7 @@ export function ClassToppersBarChart(props: {
         (acc, s, i) => (
           (acc[`subject-${i + 1}`] = { label: s.name, color: `var(--chart-${i + 1})` }), acc
         ),
-        {} as ChartConfig
+        {} as ChartConfig,
       )}>
       <BarChart
         data={top3}

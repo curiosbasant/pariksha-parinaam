@@ -20,7 +20,7 @@ export const router = {
 function useNativeSearchParam(paramName: string): [string | null, (nv: string) => void]
 function useNativeSearchParam(
   paramName: string,
-  defaultValue: string
+  defaultValue: string,
 ): [string, (nv: string) => void]
 function useNativeSearchParam(paramName: string, defaultValue?: string) {
   const searchParams = useNextSearchParams()

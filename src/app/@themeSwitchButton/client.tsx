@@ -32,7 +32,9 @@ export function ThemeSwitchButton(props: { themePreference?: ThemePreference | n
       }}
       title={themePreference === 'dark' ? 'Set light theme' : 'Set dark theme'}
       type='button'>
-      {themePreference === 'dark' ? <SunIcon /> : <MoonStarIcon />}
+      {themePreference === 'dark' ?
+        <SunIcon />
+      : <MoonStarIcon />}
     </Button>
   )
 }
