@@ -4,9 +4,9 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Share2Icon } from 'lucide-react'
 import type { PropsWithChildren } from 'react'
+import { ClientOnly } from '~/components/client-only'
 import { Button } from '~/components/ui/button'
 import { getQueryClient } from '~/lib/query'
-import { useResults } from './(home)/query'
 
 export function Providers(props: PropsWithChildren) {
   // NOTE: Avoid useState when initializing the query client if you don't
@@ -24,27 +24,24 @@ export function Providers(props: PropsWithChildren) {
 }
 
 export function ShareResultButton() {
-  const results = useResults()
-
-  if (!results?.[0]) return null
   return (
-    <Button
-      variant='ghost'
-      size='icon'
-      onClick={async () => {
-        const search = new URLSearchParams(location.search)
-        const year = search.get('year')
-        const standard = search.get('standard')
-        await navigator
-          .share({
-            title: `${results[0].school} ⸺ ${standard}th Result ${year}`,
-            url: location.href,
-          })
-          .catch(() => {})
+    <ClientOnly>
+      {() => {
+        const shareData = { url: location.href }
+        if (!navigator.canShare?.(shareData)) return null
+        return (
+          <Button
+            variant='ghost'
+            size='icon'
+            onClick={async () => {
+              await navigator.share(shareData).catch(() => {})
+            }}
+            title='Share Result'
+            type='button'>
+            <Share2Icon />
+          </Button>
+        )
       }}
-      title='Share Result'
-      type='button'>
-      <Share2Icon />
-    </Button>
+    </ClientOnly>
   )
 }

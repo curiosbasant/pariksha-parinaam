@@ -2,5 +2,6 @@
   "conventionalCommits.promptBody": false,
   "conventionalCommits.promptFooter": false,
   "conventionalCommits.promptScopes": false,
+  "tailwindCSS.classFunctions": ["cva"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

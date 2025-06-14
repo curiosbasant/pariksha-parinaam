@@ -3,7 +3,7 @@ import './globals.css'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { getThemePreference } from './@themeSwitchButton/dal'
 import { Providers, ShareResultButton } from './client'
@@ -36,31 +36,29 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
         </div>
         <ScrollArea className='size-full'>
           <div className='isolate flex min-h-full w-full flex-col divide-y [--page-padding:--spacing(2)] [--page-size:var(--container-7xl)] sm:[--page-padding:--spacing(4)] md:[--page-padding:--spacing(8)]'>
-            <Providers>
-              <header className='sticky top-0 z-10 bg-background/80 px-(--page-padding) backdrop-blur-sm'>
-                <div className='m-auto flex max-w-(--page-size) items-center gap-4 py-3'>
-                  <Link href='/' className='contents text-2xl font-extrabold'>
+            <header className='sticky top-0 z-10 bg-background/80 px-(--page-padding) backdrop-blur-sm'>
+              <div className='m-auto flex max-w-(--page-size) items-center gap-4 py-3'>
+                <div className='@container flex-1'>
+                  <Link href='/' className='inline-flex items-center gap-4'>
                     <Image
                       src={icon}
                       className='not-dark:invert'
-                      width={32}
-                      height={32}
+                      width={26}
+                      height={26}
                       alt='Logo'
                     />
-                    Pariksha Parinaam
+                    <span className='text-xl font-extrabold @2xs:text-2xl'>Pariksha Parinaam</span>
                   </Link>
-                  <div className='ms-auto'>
-                    <ShareResultButton />
-                  </div>
-                  {props.themeSwitchButton}
                 </div>
-              </header>
-              <div className='flex-1 px-(--page-padding)'>
-                <main className='m-auto size-full max-w-(--page-size) pt-8 pb-16'>
-                  {props.children}
-                </main>
+                <ShareResultButton />
+                {props.themeSwitchButton}
               </div>
-            </Providers>
+            </header>
+            <div className='flex-1 px-(--page-padding)'>
+              <main className='m-auto size-full max-w-(--page-size) pt-8 pb-16'>
+                <Providers>{props.children}</Providers>
+              </main>
+            </div>
             <footer className='px-(--page-padding)'>
               <div className='m-auto max-w-(--page-size) py-6'>
                 <div className='flex flex-col justify-between gap-2 text-sm md:flex-row'>
