@@ -1,10 +1,13 @@
 import './globals.css'
 
 import { Geist, Geist_Mono } from 'next/font/google'
+import Image from 'next/image'
+import Link from 'next/link'
 import { ComponentProps } from 'react'
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { getThemePreference } from './@themeSwitchButton/dal'
 import { Providers } from './client'
+import icon from './icon0.svg'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,9 +37,12 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
         <ScrollArea className='size-full'>
           <div className='isolate flex min-h-full w-full flex-col divide-y [--page-padding:--spacing(2)] [--page-size:var(--container-7xl)] sm:[--page-padding:--spacing(4)] md:[--page-padding:--spacing(8)]'>
             <header className='sticky top-0 z-10 bg-background/80 px-(--page-padding) backdrop-blur-sm'>
-              <div className='m-auto flex max-w-(--page-size) items-center justify-between py-3'>
-                <span className='text-2xl font-bold'>Pariksha Parinaam</span>
-                {props.themeSwitchButton}
+              <div className='m-auto flex max-w-(--page-size) items-center gap-4 py-3'>
+                <Link href='/' className='contents text-2xl font-extrabold'>
+                  <Image src={icon} className='not-dark:invert' width={32} height={32} alt='Logo' />
+                  Pariksha Parinaam
+                </Link>
+                <div className='ms-auto'>{props.themeSwitchButton}</div>
               </div>
             </header>
             <div className='flex-1 px-(--page-padding)'>
