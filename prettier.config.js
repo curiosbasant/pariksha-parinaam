@@ -23,6 +23,7 @@ const config = {
 
   // Tailwind Config
   tailwindStylesheet: './src/app/globals.css',
+  tailwindFunctions: ['cva'],
 }
 
 export default config
