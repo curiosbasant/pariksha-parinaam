@@ -3,7 +3,7 @@ import {
   queryOptions,
   experimental_streamedQuery as streamedQuery,
 } from '@tanstack/react-query'
-import { ResultOutput } from '~/lib/service'
+import type { ResultOutput } from '~/lib/service'
 
 export type HomeProps = PageProps<{ searchParams: 'year' | 'standard' | 'roll' | 'tab' | 'stream' }>
 

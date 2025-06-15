@@ -3,8 +3,7 @@
 import { MoonStarIcon, SunIcon } from 'lucide-react'
 import { useLayoutEffect, useState } from 'react'
 import { Button } from '~/components/ui/button'
-import type { ThemePreference } from './dal'
-import { COOKIE_THEME_KEY } from './shared'
+import { COOKIE_THEME_KEY, type ThemePreference } from './shared'
 
 export function ThemeSwitchButton(props: { themePreference?: ThemePreference | null }) {
   const [themePreference, setThemePreference] = useState(props.themePreference ?? 'light')

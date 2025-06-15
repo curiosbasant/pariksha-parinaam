@@ -1,8 +1,6 @@
 import { cookies } from 'next/headers'
 import { cache } from 'react'
-import { COOKIE_THEME_KEY } from './shared'
-
-export type ThemePreference = 'light' | 'dark'
+import { COOKIE_THEME_KEY, type ThemePreference } from './shared'
 
 export const getThemePreference = cache(async () => {
   const cookieStore = await cookies()

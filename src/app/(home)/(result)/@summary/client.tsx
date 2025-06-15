@@ -16,7 +16,7 @@ import {
 import type { LabelPosition } from 'recharts/types/component/Label'
 import type { BaseAxisProps } from 'recharts/types/util/types'
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -25,7 +25,7 @@ import {
 } from '~/components/ui/chart'
 import { useElementSize } from '~/hooks/use-element-size'
 import { useFilteredResults } from '../../query'
-import { ResultQueryOutput } from '../../shared'
+import type { ResultQueryOutput } from '../../shared'
 
 export function ClassResultPieChart() {
   const results = useFilteredResults()
