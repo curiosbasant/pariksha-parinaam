@@ -1,4 +1,4 @@
-import { prettifyText } from './utils'
+import { prettifyText } from '~/lib/utils'
 
 export type ResultInput = {
   board?: 'rj'
