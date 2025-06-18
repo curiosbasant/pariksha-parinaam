@@ -18,7 +18,7 @@ export default function ResultLayout(props: LayoutProps<{ slots: 'table' | 'summ
   if (isLoading) {
     return (
       <div className='flex h-96'>
-        <div className='m-auto animate-spin rounded-full border-4 border-blue-500 border-s-transparent p-4' />
+        <div className='m-auto animate-spin rounded-full border-4 border-primary border-s-transparent p-4' />
       </div>
     )
   }

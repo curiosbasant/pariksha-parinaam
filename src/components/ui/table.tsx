@@ -16,20 +16,19 @@ export function Table<T>(props: { rows: T[]; columns: ColumnDef<T, any>[] }) {
 
   return (
     <table className='w-full divide-y-2 text-sm'>
-      <thead className='*:center bg-secondary text-secondary-foreground'>
+      <thead className='bg-secondary text-secondary-foreground'>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <th key={header.id} colSpan={header.colSpan} className='px-4 py-3'>
                 {header.isPlaceholder ? null : (
                   <div
-                    {...{
-                      className:
-                        header.column.getCanSort() ?
-                          'cursor-pointer select-none hover:text-blue-400 transition-colors'
-                        : '',
-                      onClick: header.column.getToggleSortingHandler(),
-                    }}>
+                    className={
+                      header.column.getCanSort() ?
+                        'cursor-pointer transition-colors select-none hover:text-primary'
+                      : ''
+                    }
+                    onClick={header.column.getToggleSortingHandler()}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
                     {{
                       asc: ' 🔼',

@@ -3,5 +3,11 @@
   "conventionalCommits.promptFooter": false,
   "conventionalCommits.promptScopes": false,
   "tailwindCSS.classFunctions": ["cva"],
+  "files.associations": {
+    "src/app/globals.css": "tailwindcss"
+  },
+  "material-icon-theme.files.associations": {
+    "globals.css": "tailwindcss"
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

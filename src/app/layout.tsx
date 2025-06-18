@@ -7,7 +7,7 @@ import type { ComponentProps } from 'react'
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { getThemePreference } from './@themeSwitchButton/dal'
 import { Providers, ShareResultButton } from './client'
-import icon from './icon0.svg'
+import icon from './icon.svg'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -26,7 +26,7 @@ export const metadata = {
 
 export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButton' }>) {
   return (
-    <Html className='size-full bg-background text-foreground' lang='en'>
+    <Html className='size-full selection:bg-primary/25' lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} size-full antialiased`}>
         <div className='absolute h-2/3 w-full mask-b-from-50%'>
           <div
@@ -40,13 +40,7 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
               <div className='m-auto flex max-w-(--page-size) items-center gap-4 py-3'>
                 <div className='@container flex-1'>
                   <Link href='/' className='inline-flex items-center gap-4'>
-                    <Image
-                      src={icon}
-                      className='not-dark:invert'
-                      width={26}
-                      height={26}
-                      alt='Logo'
-                    />
+                    <Image src={icon} width={26} height={26} alt='Logo' />
                     <span className='text-xl font-extrabold @2xs:text-2xl'>Pariksha Parinaam</span>
                   </Link>
                 </div>
