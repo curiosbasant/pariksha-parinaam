@@ -18,7 +18,7 @@ export default async function FormSlot(props: HomeProps) {
     <Form action='/' className='grid gap-4 sm:grid-cols-3'>
       <FormField label='Session'>
         <Select name='year' defaultValue={year} key={year}>
-          <SelectTrigger className='w-full'>
+          <SelectTrigger className='w-full backdrop-blur-2xs'>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -29,7 +29,7 @@ export default async function FormSlot(props: HomeProps) {
       </FormField>
       <FormField label='Standard'>
         <Select name='standard' defaultValue={standard} key={standard}>
-          <SelectTrigger className='w-full'>
+          <SelectTrigger className='w-full backdrop-blur-2xs'>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -39,7 +39,7 @@ export default async function FormSlot(props: HomeProps) {
         </Select>
       </FormField>
       <FormField label='Starting Roll Number'>
-        <Input name='roll' defaultValue={roll} key={roll} />
+        <Input className='backdrop-blur-2xs' name='roll' defaultValue={roll} key={roll} />
       </FormField>
       <div className='col-span-full flex justify-end'>
         <FormSubmitButton>Submit</FormSubmitButton>

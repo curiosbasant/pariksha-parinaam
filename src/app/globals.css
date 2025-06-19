@@ -1,9 +1,11 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@custom-variant light (&:is([data-theme=light], [data-theme=light] *));
 @custom-variant dark (&:is([data-theme=dark], [data-theme=dark] *));
 
 @theme {
+  --blur-2xs: 2px;
   --radius-inherit: inherit;
 }
 
@@ -83,7 +85,7 @@
   --popover-foreground: var(--foreground);
 
   --border: oklch(0.92 0.004 286.32);
-  --input: var(--border);
+  --input: oklch(86.946% 0.00514 47.938 / 0.75);
   --ring: var(--primary);
 
   --chart-1: oklch(0.646 0.222 41.116);

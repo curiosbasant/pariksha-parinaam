@@ -26,7 +26,7 @@ export const metadata = {
 
 export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButton' }>) {
   return (
-    <Html className='size-full selection:bg-primary/25' lang='en'>
+    <Html className='size-full selection:bg-primary/25 light:bg-secondary' lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} size-full antialiased`}>
         <div className='absolute h-2/3 w-full mask-b-from-50%'>
           <div
@@ -53,7 +53,7 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
                 <Providers>{props.children}</Providers>
               </main>
             </div>
-            <footer className='px-(--page-padding)'>
+            <footer className='bg-background px-(--page-padding)'>
               <div className='m-auto max-w-(--page-size) py-6'>
                 <div className='flex flex-col justify-between gap-2 text-sm md:flex-row'>
                   <p>
