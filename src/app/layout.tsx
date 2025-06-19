@@ -48,8 +48,8 @@ export default function RootLayout(props: LayoutProps<{ slots: 'themeSwitchButto
                 {props.themeSwitchButton}
               </div>
             </header>
-            <div className='flex-1 px-(--page-padding)'>
-              <main className='m-auto size-full max-w-(--page-size) pt-8 pb-16'>
+            <div className='flex flex-1 px-(--page-padding)'>
+              <main className='mx-auto w-full max-w-(--page-size) pt-8 pb-16'>
                 <Providers>{props.children}</Providers>
               </main>
             </div>
