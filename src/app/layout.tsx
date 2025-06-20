@@ -1,23 +1,13 @@
 import './globals.css'
 
-import { Geist, Geist_Mono } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ComponentProps } from 'react'
 import { ScrollArea } from '~/components/ui/scroll-area'
+import { geistMono, geistSans } from '~/lib/fonts'
 import { getThemePreference } from './@themeSwitchButton/dal'
 import { Providers, ShareResultButton } from './client'
 import icon from './icon.svg'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
 
 export const metadata = {
   title: 'Pariksha Parinaam',
