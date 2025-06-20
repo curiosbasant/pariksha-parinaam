@@ -3,7 +3,7 @@ import {
   queryOptions,
   experimental_streamedQuery as streamedQuery,
 } from '@tanstack/react-query'
-import type { ResultOutput } from './server'
+import type { ResultOutput } from '../server'
 
 export type HomeProps = PageProps<{ searchParams: 'year' | 'standard' | 'roll' | 'tab' | 'stream' }>
 
@@ -25,7 +25,7 @@ export const getResultsOptions = (data: ResultQueryInput) =>
 async function queryFn<QKey extends [string, ResultQueryInput]>(ctx: QueryFunctionContext<QKey>) {
   const results = await streamedQuery<ResultQueryOutput, QKey>({
     async queryFn({ queryKey }) {
-      const response = await fetch('/parinaam?' + new URLSearchParams(queryKey[1] as string))
+      const response = await fetch('/api/result?' + new URLSearchParams(queryKey[1] as string))
       const reader = response.body?.getReader()
       const decoder = new TextDecoder()
 

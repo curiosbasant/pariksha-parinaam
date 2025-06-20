@@ -2,6 +2,7 @@
   "conventionalCommits.promptBody": false,
   "conventionalCommits.promptFooter": false,
   "conventionalCommits.promptScopes": false,
+  "cSpell.words": ["parinaam"],
   "tailwindCSS.classFunctions": ["cva"],
   "files.associations": {
     "src/app/globals.css": "tailwindcss"
