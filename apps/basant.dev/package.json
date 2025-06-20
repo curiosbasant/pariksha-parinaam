@@ -1,8 +1,6 @@
 {
-  "name": "pariksha-parinaam",
-  "version": "0.1.0",
+  "name": "@my/basant.dev",
   "type": "module",
-  "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
